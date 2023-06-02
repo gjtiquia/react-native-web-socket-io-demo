@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "react-native-web-template",
-    "slug": "react-native-web-template",
+    "name": "react-native-web-socket-io-demo",
+    "slug": "react-native-web-socket-io-demo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
