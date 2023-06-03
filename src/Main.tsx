@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context"
+import { io } from "socket.io-client";
+
 import { HelloWorld } from "src/components"
+
+const HOSTNAME = "Gershoms-MBP"; // Temporary during development
+const PORT = 8080;
+const URL = `http://${HOSTNAME}:${PORT}`;
+
+const socket = io(URL);
 
 const Main = () => {
     const [isMounted, setIsMounted] = useState(false);
@@ -13,11 +21,10 @@ const Main = () => {
     }, []);
 
     const fetchData = async () => {
-        const HOSTNAME = "Gershoms-MBP"; // Temporary during development
-        const PORT = 8080;
+
 
         try {
-            const response = await fetch(`http://${HOSTNAME}:${PORT}`);
+            const response = await fetch(URL);
             const data = await response.json();
 
             setApiData(data);
