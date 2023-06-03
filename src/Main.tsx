@@ -8,17 +8,19 @@ const Main = () => {
     const [apiData, setApiData] = useState<any>({ "state": "loading" });
 
     useEffect(() => {
-        console.log("Fetching...");
-
-        // fetch("http://localhost:8080") // Not working, maybe need to set up cors?
-        fetch("https://random-data-api.com/api/v2/users?size=2")
-            .then(response => response.json())
-            .then(data => {
-                setApiData(data);
-                setIsMounted(true)
-            })
-            .catch(response => console.error(response));
+        fetchData();
     }, []);
+
+    const fetchData = async () => {
+        const HOSTNAME = "Gershoms-MBP"; // Temporary during development
+        const PORT = 8080;
+
+        const response = await fetch(`http://${HOSTNAME}:${PORT}`);
+        const data = await response.json();
+
+        setApiData(data);
+        setIsMounted(true);
+    }
 
     return (
         <SafeAreaProvider>

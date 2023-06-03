@@ -29,3 +29,5 @@ Start a development server with the following command.
 ```bash
 npm start
 ```
+
+Note that the command above automatically compiles the TypeScript before starting the server.
