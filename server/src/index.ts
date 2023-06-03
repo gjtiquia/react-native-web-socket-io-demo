@@ -6,8 +6,18 @@ import cors from "cors";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
-const HOST_IP = "0.0.0.0"; // Setting to 0.0.0.0 allows to listen to  computer ip or all network interfaces of the computer. Ref: https://stackoverflow.com/questions/21263021/connect-to-another-computer-using-ip-address?rq=4
-const HOSTNAME = os.hostname();
+// Gets all the remote IPs for the server machine. Gets the same value as Expo's development server.
+// Reference: https://github.com/FredKSchott/snowpack/discussions/2011
+const remoteIps = Object.values(os.networkInterfaces())
+    .reduce((every: os.NetworkInterfaceInfo[], i) => [...every, ...(i || [])], [])
+    .filter((i) => i.family === 'IPv4' && i.internal === false)
+    .map((i) => i.address);
+
+// console.log(os.networkInterfaces());
+console.log("Remote IPs", remoteIps);
+
+const FALLBACK_IP = "0.0.0.0"; // Setting to 0.0.0.0 allows to listen to computer ip or all network interfaces of the computer. Ref: https://stackoverflow.com/questions/21263021/connect-to-another-computer-using-ip-address?rq=4
+const HOST_IP: string = remoteIps.length > 0 ? remoteIps[0] : FALLBACK_IP;
 const PORT = 8080; // Arbitrary port
 
 const app = express();
@@ -18,12 +28,12 @@ const io = new Server(httpServer, {
     }
 });
 
-console.log(`Hostname: ${HOSTNAME}`);
+console.log(`Host IP: ${HOST_IP}`);
 
 // Note: This middleware is only for the express api endpoints. Need to configure cors for socket io again separately.
 app.use(cors()); // CORS middlware, this allows any url from any origin to access the server (especially in development localhost to localhost)
 
-// Connect to http://${HOSTNAME}:${PORT} on any device on the same local network, should be able to check this (works on MacOS 10.15.7)
+// Connect to http://${HOST_IP}:${PORT} on any device on the same local network, should be able to check this (works on MacOS 10.15.7)
 app.get('/', (req, res) => {
     res.status(200).send({ message: "hello world!" });
 });
@@ -51,4 +61,4 @@ io.on("connection", (socket) => {
 
 // Convention to start listening after setting up the internal routes
 // Note: app.listen() does not work as it creates a new HTTP server. Reference: https://socket.io/docs/v4/server-initialization/#with-express
-httpServer.listen(PORT, HOST_IP, () => console.log(`Server now live at http://${HOSTNAME}:${PORT}`))
+httpServer.listen(PORT, HOST_IP, () => console.log(`Server now live at http://${HOST_IP}:${PORT}`))

@@ -18,6 +18,7 @@ const Main = () => {
         const onDisconnect = () => {
             setSocketID("");
             setIsConnected(false);
+            setServerResponse("");
         }
 
         const onServerResponse = (value: any) => setServerResponse(value);
