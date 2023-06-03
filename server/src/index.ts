@@ -12,10 +12,15 @@ const PORT = 8080; // Arbitrary port
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+    cors: {
+        origin: "*" // Allows from all sources. In production should not do this.
+    }
+});
 
 console.log(`Hostname: ${HOSTNAME}`);
 
+// Note: This middleware is only for the express api endpoints. Need to configure cors for socket io again separately.
 app.use(cors()); // CORS middlware, this allows any url from any origin to access the server (especially in development localhost to localhost)
 
 // Connect to http://${HOSTNAME}:${PORT} on any device on the same local network, should be able to check this (works on MacOS 10.15.7)
