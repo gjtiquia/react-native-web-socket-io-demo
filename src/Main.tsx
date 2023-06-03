@@ -1,57 +1,60 @@
 import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
-import { HelloWorld } from "src/components"
 import { socket } from "./socket";
 
-const HOSTNAME = "localhost"; // "Gershoms-MBP"; // Temporary during development
-const PORT = 8080;
-const URL = `http://${HOSTNAME}:${PORT}`;
-
 const Main = () => {
-    const [isMounted, setIsMounted] = useState(false);
+    const [socketID, setSocketID] = useState("");
     const [isConnected, setIsConnected] = useState(false);
-    const [apiData, setApiData] = useState<any>({ "state": "loading" });
+    const [serverResponse, setServerResponse] = useState("");
 
     useEffect(() => {
-        const onConnect = () => setIsConnected(true);
+        const onConnect = () => {
+            setSocketID(socket.id);
+            setIsConnected(true);
+        }
+
+        const onDisconnect = () => {
+            setSocketID("");
+            setIsConnected(false);
+        }
+
+        const onServerResponse = (value: any) => setServerResponse(value);
 
         socket.on("connect", onConnect);
-
-        fetchData()
-            .then(() => setIsMounted(true));
+        socket.on("disconnect", onDisconnect);
+        socket.on("serverResponse", onServerResponse);
 
         return () => {
             socket.off("connect", onConnect);
+            socket.off("disconnect", onDisconnect);
+            socket.off("serverResponse", onServerResponse);
         }
     }, []);
 
-    const fetchData = async () => {
-        try {
-            const response = await fetch(URL);
-            const data = await response.json();
-
-            setApiData(data);
-        }
-        catch (error) {
-            console.error(error);
-            setApiData(String(error));
-        }
+    const onClickHandler = () => {
+        socket.emit("clickMeEvent");
     }
 
     return (
         <SafeAreaProvider>
             <View className="flex-1 justify-center items-center">
                 <View className="flex flex-row">
-                    <Text>{"Is Mounted: "}</Text>
-                    <Text>{isMounted ? "True" : "False"}</Text>
+                    <Text>{"Socket ID: "}</Text>
+                    <Text>{socketID}</Text>
                 </View>
                 <View className="flex flex-row">
                     <Text>{"Is Connected: "}</Text>
                     <Text>{isConnected ? "True" : "False"}</Text>
                 </View>
-                <Text>{JSON.stringify(apiData)}</Text>
+                <View className="flex flex-row">
+                    <Text>{"Server Response: "}</Text>
+                    <Text>{serverResponse}</Text>
+                </View>
+                <View>
+                    <Button title="Click Me" onPress={onClickHandler} />
+                </View>
             </View>
         </SafeAreaProvider >
     );

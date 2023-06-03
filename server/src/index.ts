@@ -25,13 +25,28 @@ app.use(cors()); // CORS middlware, this allows any url from any origin to acces
 
 // Connect to http://${HOSTNAME}:${PORT} on any device on the same local network, should be able to check this (works on MacOS 10.15.7)
 app.get('/', (req, res) => {
-    res.status(200).send({ hello: "world" });
+    res.status(200).send({ message: "hello world!" });
 });
 
-io.on("connection", (socket) => {
-    console.log("A user connected.");
+let count = 0;
+const incrementCount = () => {
+    count++;
+    console.log(`Incremented Count: ${count}`);
+}
 
-    // TODO : Listen to messages here
+io.on("connection", (socket) => {
+    console.log(`A user connected. Socket ID: ${socket.id}`);
+
+    // socket.emit => only emit on the socket
+    // Initialize the current count on client side
+    socket.emit("serverResponse", count);
+
+    socket.on("clickMeEvent", () => {
+        incrementCount();
+
+        // io.emit => Emit to everyone
+        io.emit("serverResponse", count);
+    });
 });
 
 // Convention to start listening after setting up the internal routes
