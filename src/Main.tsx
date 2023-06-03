@@ -8,18 +8,24 @@ const Main = () => {
     const [apiData, setApiData] = useState<any>({ "state": "loading" });
 
     useEffect(() => {
-        fetchData();
+        fetchData()
+            .then(() => setIsMounted(true));
     }, []);
 
     const fetchData = async () => {
         const HOSTNAME = "Gershoms-MBP"; // Temporary during development
         const PORT = 8080;
 
-        const response = await fetch(`http://${HOSTNAME}:${PORT}`);
-        const data = await response.json();
+        try {
+            const response = await fetch(`http://${HOSTNAME}:${PORT}`);
+            const data = await response.json();
 
-        setApiData(data);
-        setIsMounted(true);
+            setApiData(data);
+        }
+        catch (error) {
+            console.error(error);
+            setApiData(String(error));
+        }
     }
 
     return (
