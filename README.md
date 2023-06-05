@@ -1,8 +1,10 @@
 # React Native Web Socket.io Demo
 
-A demo project to test the compatibility between React Native Web and Socket.io.
+A demo project to test the compatibility between React Native Web and Socket.io using an Expo managed workflow.
 
-This project uses an Expo managed workflow.
+The web app is hosted here: [react-native-web-socket-io-demo.netlify.app](https://react-native-web-socket-io-demo.netlify.app/)
+
+The server is hosted at Railway.app. The project is public, click [here](https://railway.app/project/6a8b4fc4-1915-47da-a35a-fcde90c5c79a) to view it.
 
 ## Overview
 
