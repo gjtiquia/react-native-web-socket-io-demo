@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm-run-all build devSetup startServer",
+    "start": "npm-run-all build startServer",
     "dev": "npm-run-all build devSetup --parallel watch:**",
     "watch:typescript": "tsc --watch --preserveWatchOutput",
     "watch:nodemon": "nodemon dist/index.js",

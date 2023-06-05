@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Linking } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
-import { socket } from "src/socket";
+import { socket, URL } from "src/socket";
 
 const Main = () => {
     const [socketID, setSocketID] = useState("");
@@ -44,7 +44,13 @@ const Main = () => {
 
     return (
         <SafeAreaProvider>
-            <View className="flex-1 justify-center items-center">
+            <View className="flex-1 justify-center items-center gap-4">
+                <Text className="font-bold text-xl">React Native Web + Socket.io Demo</Text>
+
+                <View className="flex items-center">
+                    <Text>{"Socket URL: "}</Text>
+                    <Text className="text-xs">{URL}</Text>
+                </View>
                 <View className="flex flex-row">
                     <Text>{"Socket ID: "}</Text>
                     <Text>{socketID}</Text>
@@ -57,8 +63,24 @@ const Main = () => {
                     <Text>{"Server Response: "}</Text>
                     <Text>{serverResponse}</Text>
                 </View>
+
+                <View className="flex flex-row">
+                    <Text>{"process.env.NODE_ENV: "}</Text>
+                    <Text>{process.env.NODE_ENV}</Text>
+                </View>
+
                 <View>
                     <Button title="Click Me" onPress={onClickHandler} />
+                </View>
+
+                <View className="flex items-center">
+                    <Text>{"GitHub: "}</Text>
+                    <Text
+                        className="text-xs text-blue-500"
+                        onPress={() => Linking.openURL('https://github.com/gjtiquia/react-native-web-socket-io-demo')}
+                    >
+                        {"https://github.com/gjtiquia/react-native-web-socket-io-demo"}
+                    </Text>
                 </View>
             </View>
         </SafeAreaProvider >
