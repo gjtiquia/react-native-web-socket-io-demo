@@ -14,15 +14,39 @@ With the Expo managed workflow and React Native Web setup, clients can be on the
 
 ## Instructions
 
-It is recommended to first have the server setup before having the frontend setup, as the frontend needs to connect to the backend.
+### Quick Preview
 
-### Setting up the Backend Development Environment
+To have a quickly run a preview of the project, run the following commands.
 
-Read [this](./server/README.md) for setup instructions.
+Install the required dependencies for both the client and the server with the following command.
 
-### Setting up the Frontend Development Environment
+```bash
+npm run quick:install
+```
 
-Install all the required dependencies with the following command.
+Start a quick preview with the following command.
+
+```bash
+npm run quick:start
+```
+
+A backend server will start on your local machine, followed by the Expo development server.
+
+Following the on-screen instructions, press "w" to open the app on the web.
+
+To open the app on mobile, ensure your mobile has the Expo Go app installed and is connected to the same local network as the computer, then scan the QR code shown with the Expo Go app (Android) or the Camera App (iOS).
+
+Feel free to copy and paste the website link in different tabs while also having the app on mobile at the same time. You should be able to see the count updating on all clients, no matter which client presses the button.
+
+Press Ctrl-C to stop the servers.
+
+### Development Environment
+
+It is recommended to open two terminals for development, one for the server and one for the client. Setup the server before setting up the client.
+
+In one of the terminals, follow the instructions for setting up a server development environment [here](./server/README.md#setting-up-a-server-development-environment).
+
+For the client development environment, install all the required dependencies with the following command on another terminal if they have not been installed yet with `npm run quick:install` from [Quick Preview](./README.md#quick-preview).
 
 ```bash
 npm install
@@ -31,7 +55,7 @@ npm install
 Start a development server with the following command.
 
 ```bash
-npm start
+npm run dev
 ```
 
 Following the on-screen instructions, press "w" to open the app on the web.

@@ -2,7 +2,7 @@
 
 ## Instructions
 
-### Setting up a Development Environment
+### Setting up a Server Development Environment
 
 From the root directory, go into the server directory with the following command.
 
@@ -12,23 +12,26 @@ cd server
 
 Make sure you are in the server directory before running the commands below.
 
-Install all the required dependencies with the following command.
+If the dependencies have not yet been installed with `npm run quick:install` from [Quick Preview](../README.md#quick-preview), run the following command.
 
 ```bash
 npm install
 ```
 
-Compile the TypeScript code into the /dist directory with the following command.
+Start the development environment with the following command.
 
-``` bash
-npm run build
+```bash
+npm run dev
 ```
 
-Start a development server with the following command.
+This command compiles the TypeScript code, does the necessary setup and starts a server. Press Ctrl-C to stop the server.
+
+Changes to the TypeScript code are watched by the TypeScript compiler. Changes to the JavaScript code are watched by [nodemon](https://github.com/remy/nodemon). Therefore, any changes to the TypeScript source code will automatically restart the server.
+
+To start a server without watching for changes, use the following command instead.
 
 ```bash
 npm start
 ```
 
-Note that the command above automatically compiles the TypeScript before starting the server.
-Press Ctrl-C to stop the server.
+Read [this](../README.md#development-environment) for instructions on setting up the client environment.
