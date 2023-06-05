@@ -1,11 +1,11 @@
 // NodeJS TypeScript setup Reference: https://fireship.io/lessons/typescript-nodejs-setup/
 
 import express from "express";
-import os from "os";
 import cors from "cors";
-import fs from "fs";
 import { createServer } from "http";
 import { Server } from "socket.io";
+
+import { DEV_IP, DEV_PORT } from "../devConfig.js"
 
 const app = express();
 const httpServer = createServer(app);
@@ -52,27 +52,6 @@ if (process.env.PORT) {
     httpServer.listen(process.env.PORT, () => console.log(`Server now live at http://localhost:${process.env.PORT}`))
 }
 else {
-    // Gets all the remote IPs for the development server machine. Gets the same value as Expo's development server.
-    // Reference: https://github.com/FredKSchott/snowpack/discussions/2011
-    const remoteIps = Object.values(os.networkInterfaces())
-        .reduce((every: os.NetworkInterfaceInfo[], i) => [...every, ...(i || [])], [])
-        .filter((i) => i.family === 'IPv4' && i.internal === false)
-        .map((i) => i.address);
-
-    console.log("Remote IPs:", remoteIps);
-
-    const FALLBACK_IP = "0.0.0.0"; // Setting to 0.0.0.0 allows to listen to computer ip or all network interfaces of the computer. Ref: https://stackoverflow.com/questions/21263021/connect-to-another-computer-using-ip-address?rq=4
-    const HOST_IP: string = remoteIps.length > 0 ? remoteIps[0] : FALLBACK_IP;
-    const PORT = 8080; // Arbitrary port
-
-    // Write the remote IP and port to a file so it can be used by the frontend
-    const FILE_PATH = "devConfig.js";
-    const FILE_CONTENTS = `// These are set during runtime in a development environment \nexport const HOST_IP = "${HOST_IP}"; \nexport const HOST_PORT = "${PORT}";`;
-    fs.writeFile(FILE_PATH, FILE_CONTENTS, (err) => {
-        if (err) console.error(err);
-        else console.log(`Successfully wrote current Host IP to ${FILE_PATH}`)
-    })
-
-    httpServer.listen(PORT, HOST_IP, () => console.log(`Server now live at http://${HOST_IP}:${PORT}`))
+    httpServer.listen(DEV_PORT, DEV_IP, () => console.log(`Server now live at http://${DEV_IP}:${DEV_PORT}`))
 }
 
