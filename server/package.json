@@ -26,7 +26,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "react-native-web-template": "file:..",
+    "react-native-web-socket-io-demo": "file:..",
     "socket.io": "^4.6.2"
   }
 }
