@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, Button } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
-import { socket } from "./socket";
+import { socket } from "src/socket";
 
 const Main = () => {
     const [socketID, setSocketID] = useState("");
@@ -11,11 +11,15 @@ const Main = () => {
 
     useEffect(() => {
         const onConnect = () => {
+            console.log(`Connected to server! Socket ID: ${socket.id}`)
+
             setSocketID(socket.id);
             setIsConnected(true);
         }
 
         const onDisconnect = () => {
+            console.log(`Disconnected from server!`)
+
             setSocketID("");
             setIsConnected(false);
             setServerResponse("");

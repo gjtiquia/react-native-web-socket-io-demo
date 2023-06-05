@@ -8,6 +8,9 @@
       ],
       "env": [
         "./env.js"
+      ],
+      "server/*": [
+        "./server/*"
       ]
     },
   }

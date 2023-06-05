@@ -1,10 +1,14 @@
 import { io } from "socket.io-client";
+import { HOST_IP, HOST_PORT } from "server/devConfig"
 
-// TODO : Production and Development should have different handling
-// Copy and pasted from server console log
-const HOSTNAME = "192.168.8.174";
+const DEVELOPMENT_HOSTNAME = HOST_IP;
+const PRODUCTION_HOSTNAME = "some-production-hostname";
+const HOSTNAME = process.env.NODE_ENV === "production" ? PRODUCTION_HOSTNAME : DEVELOPMENT_HOSTNAME;
 
-const PORT = 8080;
+const DEVELOPMENT_PORT = HOST_PORT;
+const PRODUCTION_PORT = "some-production-port";
+const PORT = process.env.NODE_ENV === "production" ? PRODUCTION_PORT : DEVELOPMENT_PORT;
+
 const URL = `http://${HOSTNAME}:${PORT}`;
 
 console.log("process.env.NODE_ENV:", process.env.NODE_ENV)
