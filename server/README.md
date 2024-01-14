@@ -1,4 +1,4 @@
-# Server
+# Web Socket Server
 
 ## Instructions
 
